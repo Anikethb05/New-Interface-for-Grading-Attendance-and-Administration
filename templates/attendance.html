@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2 class="text-center my-3">Attendance</h2>
+
+<div class="container">
+    <form method="POST">
+        <div class="row">
+            <div class="col-10">
+                <label for="batch-select">Select Batch:</label>
+                <select id="batch-select" name="batch" onchange="updateSections()">
+                    <option value="">Select a batch</option>
+                    {% for batch_name in batches %}
+                    <option value="{{ batch_name }}" {% if selected_batch == batch_name %}selected{% endif %}>{{ batch_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="section-select">Select Section:</label>
+                <select id="section-select" name="section">
+                    <option value="">Select an option</option>
+                    {% if selected_batch %}
+                        {% for section in batches[selected_batch] %}
+                        <option value="{{ section }}" {% if selected_section == section %}selected{% endif %}>{{ section }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+
+                <input type="date" name="date" id="date" value="{{ selected_date }}">
+
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container my-3">
+    {% if selected_batch and selected_section %}
+    <div class="alert alert-info" role="alert">
+        <h4>{{ selected_batch }} - {{ selected_section }}</h4>
+    </div>
+    {% endif %}
+</div>
+
+<div class="container my-3">
+    {% if timetable %}
+    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group me-2" role="group" aria-label="First group">
+            {% for subject in timetable %}
+            <button type="button" class="btn btn-outline-secondary" onclick="selectSubject('{{ subject }}')">{{ subject }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="container my-3">
+    {% if students %}
+    <form method="POST" action="/insert_attendance">
+        <input type="hidden" name="date" value="{{ selected_date }}">
+        <input type="hidden" name="subject" id="selected-subject" value="{{ selected_subject }}">
+        <input type="hidden" name="section" value="{{ selected_section }}">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">USN</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Present</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ student.usn }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="present_{{ student.usn }}">
+                            <input type="hidden" name="student_id" value="{{ student.usn }}">
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" name="mark_attendance" value="Mark Attendance">
+    </form>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/batches.js') }}"></script>  
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}Announcements{% endblock %}
+{% block style %}
+<style>
+    .details table{
+        width: 80%;
+    }
+    table{
+        border:#EEEEEE 0.1rem solid;
+        margin: 20px;
+    }
+    .container h1{
+        display: flex;
+        justify-content: center;
+        color:#EEEEEE;
+        margin:20px;
+    }
+    form{
+        display: flex;
+        justify-content: center;
+    }
+    .details{
+        display: flex;
+        justify-content: center;
+    }
+    tr{
+        color:#EEEEEE;
+    }
+    td{
+        padding:1rem;
+        margin:2rem;
+    }
+    th{
+        padding:1rem;
+        margin:2rem;
+    }
+    button{
+        border-radius: 10%;
+        padding:2px;
+        background-color: #222831
+    }
+    
+    #btn{
+        padding:5px;
+        background-color:#385170;
+        margin:0%;
+    }
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Create</h1>
+<form action="/announcements" method="POST">
+    <table>
+        <tr>
+            <td>
+           Enter Announcement:</td>
+        <td><input type="text" name="title"></td>
+    
+        </tr>
+        <tr>
+            <td>
+            Enter Description:</td>
+            <td><textarea name="desc" rows="5" cols="23"></textarea></td>
+        <td>
+            <button><input id="btn" type="submit" name="submit" value="OK"></button>
+        </td>
+        </tr>
+    </table>
+</form>
+</div>
+
+
+{% if announcements: %}
+<div class="container"><h1> Announcements </h1></div>
+<div class="details">
+<table>
+    <tr>
+        <th>Sl. No.</th>
+        <th>Announcement</th>
+        <th>Description</th>
+    </tr>
+    {% for announcement in announcements: %}
+    <tr>
+        <td>{{ announcement[0] }}</td>
+        <td>{{ announcement[1] }}</td>
+        <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            View 
+          </button></td>
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Announcement</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ announcement[2] }}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div></td>
+        <td><form action="/delete/{{ announcement[0] }}" method="POST">
+            <input id="btn" type="submit" name="submit" value="DELETE">
+        </form></td>
+        <td><form action="/update/{{ announcement[0] }}" method="POST">
+            <input id="btn" type="submit" name="submit" value="UPDATE">
+        </form></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<div class="container"><h1> No announcements!</h1></div>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

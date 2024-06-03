@@ -1,5 +1,90 @@
 {% extends 'base.html' %}
-{% block title %} Home {% endblock title %}
-{% block body %}
-    HELLO WORL
-{% endblock body %}
+{% block title %}NIGAA{% endblock %}
+{% block style %}
+    <style>
+        .background-img {
+        position: relative;
+        text-align: center;
+        color: white;
+        }
+        img{
+            width:100%;
+            opacity: 0.6;
+            height: 85vh;
+            margin-bottom: 20px;
+        }
+        .cards{
+            position:absolute;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+        .card img{
+            height: 10rem;
+        }
+        .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #EADBC8;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 1.2rem;
+        }
+        .card{
+            margin:2rem;
+        }
+        @media (max-width: 700px) {
+            .cards{
+                display: block;
+            }
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="background-img">
+    <img src="../static/background.jpeg" alt="Snow" >
+    <div class="centered">
+        Introducing our new comprehensive interface for managing student records, integrating grading, attendance, and administration. This user-friendly platform centralizes all data, streamlining grading with automated calculations, simplifying attendance with real-time updates, and facilitating administrative tasks with intuitive tools and secure storage. Enhance efficiency, accuracy, and organization in your educational environment with this innovative solution.</div>
+</div>
+<div class="container">
+    <div class="cards">
+        <div class="card" style="width: 18rem;">
+            <img src="../static/announcement.png" class="card-img"  alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Announcements</h5>
+            </div>
+            <div class="card-body">
+              <form action="/announcements" method="POST">
+                <input type="submit" name="submit" value="View"></form>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;">
+            <img src="../static/profile.png" class="card-img"  alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Student Management</h5>
+            </div>
+            <div class="card-body">
+                <form action="/students" method="POST">
+                    <input type="submit" name="submit" value="Records"></form>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;">
+            <img src="../static/attendance.jpeg" class="card-img"  alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Attendance</h5>
+            </div>
+            <div class="card-body">
+                <form action="#" method="POST">
+                    <input type="submit" name="submit" value="Track"></form>
+            </div>
+          </div>
+
+    </div>
+    
+</div>
+
+{% endblock %}

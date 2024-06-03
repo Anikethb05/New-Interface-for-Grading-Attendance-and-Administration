@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Update Announcement{% endblock %}
+{% block style %}
+<style>
+    table{
+        border: #EEEEEE 0.1rem solid;
+        margin: 20px;
+    }
+    .container h1{
+        display: flex;
+        justify-content: center;
+        color: #EEEEEE;
+        margin: 20px;
+    }
+    form{
+        display: flex;
+        justify-content: center;
+    }
+    .details{
+        display: flex;
+        justify-content: center;
+    }
+    tr{
+        color: #EEEEEE;
+    }
+    td{
+        padding: 1rem;
+        margin: 2rem;
+    }
+    th{
+        padding: 1rem;
+        margin: 2rem;
+    }
+    button{
+        border-radius: 10%;
+        padding: 2px;
+        background-color: #76ABAE;
+    }
+    
+    #btn{
+        padding: 5px;
+        background-color: #76ABAE;
+        margin: 0%;
+    }
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Update Announcement</h1>
+    <form action="/update/{{ id }}" method="POST">
+        <table>
+            <tr>
+                <td>Enter Announcement:</td>
+                <td><input type="text" name="title" value="{{ announcement[0] }}"></td>
+            </tr>
+            <tr>
+                <td>Enter Description:</td>
+                <td><textarea name="desc" value="{{ announcement[1] }}" rows="5" cols="23"></textarea></td>
+                <td>
+                    <button><input id="btn" type="submit" name="submit" value="OK"></button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{% endblock %}

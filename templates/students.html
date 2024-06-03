@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block style %}
+<style>
+    .details table{
+        width:100%;
+    }
+    table{
+        border:#EEEEEE 0.1rem solid;
+    }
+    .container h1{
+        display: flex;
+        justify-content: center;
+        color:#EEEEEE
+    }
+    form{
+        display: flex;
+        justify-content: center;
+    }
+    .details{
+        display: flex;
+        justify-content: center;
+    }
+    tr{
+        color:#EEEEEE;
+    }
+    td{
+        padding:1rem;
+        margin:2rem;
+    }
+    th{
+        padding:1rem;
+        margin:2rem;
+    }
+    button{
+        border-radius: 10%;
+        padding:2px;
+        background-color:#222831
+    }
+    
+    #btn{
+        padding:5px;
+        background-color:#385170;
+        margin:0%;
+    }
+
+</style>
+{% endblock %}
+{% block content %}
+
+<h1 style="color:#76ABAE;text-align: center;font-family: Georgia, 'Times New Roman', Times, serif; margin:1rem;">Student Management System</h1><hr>
+    
+    <div class="container">
+        <h1>Student Record</h1>
+        <form action="/students" method="POST">
+            <table>
+                <tr>
+                    <td>Student ID:</td>
+                    <td>
+                        <input type="text" name="id"></td>
+                    </tr>
+                <tr>
+                    <td>
+                    Name of Student:</td>
+                <td><input type="text" name="name"></td>
+                <td>
+                    <button><input id="btn" type="submit" name="submit" value="SEARCH"></button>
+                </td>
+                </tr>
+                <tr>
+                    <td>
+                    Name of Father:</td>
+                <td><input type="text" name="name_f"></td>
+            
+                </tr>
+                <tr>
+                    <td>
+                    Name of Mother:</td>
+                <td><input type="text" name="name_m"></td>
+        
+                </tr>
+
+                <tr>
+                <td>  Email:</td>
+                <td>
+                    <input type="email" name="email"></td>
+                </tr>
+                <tr>
+                <td>
+                   Address:</td>
+                <td>
+                    <textarea id="address" name="address" rows="4" cols="20"></textarea></td>
+                </tr>
+                <tr>
+                <td>
+                    Phone Number:
+                </td>
+                 <td>
+                    <input type="text" name="phone"></td>
+                </tr>
+                <tr>
+                    <td>  Date of Birth:</td>
+                    <td>
+                        <input type="date" name="date"></td>
+                    </tr>
+                <tr>
+                    <td><label >Gender:</label></td>
+
+                <td><select name="gender" id="gender">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select></td>
+                </tr>
+                    <tr>
+                        <td>
+                            <button><input id="btn" type="submit" name="submit" value="ADD"></button>
+                        </td>
+                        <td>
+                            <button><input id="btn" type="submit" name="submit" value="UPDATE"></button>
+                        </td>
+                        <td>
+                            <button><input id="btn" type="submit" name="submit" value="DELETE"></button>
+                        </td>
+                        <td>
+                            <button><input id="btn" type="submit" name="submit" value="DISPLAY"></button>
+                        </td>
+                        
+                    </tr>
+            </table>
+        </form>
+        <br><br><br>
+        
+        
+        {% if students: %}
+        <div class="container">
+            <h1>Students</h1>
+        </div>
+        <div class="details">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name of student</th>
+                <th>Email</th>
+                <th>Gender</th>
+            </tr>
+            {% for student in students %}
+<tr>
+    <td>{{ student[0] }}</td>
+    <td>{{ student[1] }}</td>
+    <td>{{ student[4] }}</td>
+    <td>{{ student[8].upper() }}</td>
+    <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ student[0] }}">
+            More
+        </button>
+    </td>
+</tr>
+<div class="modal fade" id="modal{{ student[0] }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel{{ student[0] }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalLabel{{ student[0] }}">{{ student[1] }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Student ID:  {{ student[0] }}</p>
+                <p>Name of Student:  {{ student[1] }}</p>
+                <p>Name of Father:  {{ student[2] }}</p>
+                <p>Name of Mother:  {{ student[3] }}</p>
+                <p>Email:  {{ student[4] }}</p>
+                <p>Address:  {{ student[5] }}</p>
+                <p>Phone:  {{ student[6] }}</p>
+                <p>Date of Birth:  {{ student[7] }}</p>
+                <p>Gender:  {{ student[8].upper() }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+        </table>
+        {% else %}
+        <div class="container">
+            <h1>No students!</h1>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+    {% endblock %}
